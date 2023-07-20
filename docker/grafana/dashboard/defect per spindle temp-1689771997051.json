@@ -1,0 +1,403 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 20,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2.5,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.theme-dark{\n  background-color:white;\n}\n.theme-light{\n  background-color:white;\n}\n\n.css-g43m4k{\nbackground-color: #A9A9A9;\nborder-radius: 50%;\nwidth: 15px;\nheight:15px;\nmargin-bottom:2px;\nmargin-right:2px;\n}\n.lable_decor{\nfont-size: 20px;\nfont-family:Arial;\nfont-weight:bold;\ncolor:black;\ndisplay:inline-block;\nvertical-align:middle;\npadding-top:10px;\npadding-left:35%;\n}\n</style>\n</head>\n<body>\n\n<div style=\"background-color:#F5F3F1;\">\n<a href=\"http://168.119.114.146:3000/d/RgOQbI1Vz/homepage_inspection?orgId=1\">\n<img style=\"width:120px;background-color:#F5F3F1;padding-right:30px;\" src=\"public/img/logo_black.png\"></img></a>\n\n<h1 class=\"lable_decor\">Defect Per Spindle</h1>\n</div>\n\n</body>\n</html> ",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 2.5
+      },
+      "id": 16,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<style>\ninput, select {\n    background-color: white;\n    color: rgb(36, 41, 46);\n    border: none;\n    box-shadow: none;\n    text-align: center;\n}\n.centered-element {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center;\n}\n</style>\n<body>\n<div class=\"centered-element\">\n  <lable style = \"font-weight: bold;\">Products per Batch: </lable><br>\n  <input type=\"text\" id=\"fname\" name=\"fname\" value =\"${number_of_products}\">\n</div>\n\n</body>\n</html>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "description": "By using \"Position Range\" and \"Position Number\", defectness of product will be shown via this panel.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 3,
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.2
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 20,
+        "x": 4,
+        "y": 2.5
+      },
+      "id": 13,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P92A3DAD543463F5D"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "DROP TABLE IF EXISTS TempTable;\r\n\r\nWITH individual_results_subselection AS (\r\n    SELECT \r\n      now() as Time\r\n      , *\r\n    FROM individual_results \r\n    WHERE 1=1\r\n        AND batch_name = cast('$batchname' as text) \r\n        AND cast(position1 as integer)=cast(regexp_replace(cast('$rotationNo' as text), ' \\w* \\d*', '') as integer)\r\n)\r\n\r\nSELECT * INTO TABLE TempTable\r\nFROM individual_results_subselection\r\n;\r\n\r\nALTER TABLE TempTable\r\nDROP COLUMN position1\r\n;\r\n\r\nSELECT * FROM TempTable",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Defect Averages for Chosen Position",
+      "type": "bargauge"
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "description": "The distance of the product from the average is shown here.",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 5.5
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "10.0.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/.*/",
+          "color": "#5794F2",
+          "lines": false
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P92A3DAD543463F5D"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \r\nnow() as Time, similarity1 as \"1\", similarity2 as \"2\", similarity3 as \"3\", similarity4 as \"4\", \r\nsimilarity5 as \"5\", similarity6 as \"6\", similarity7 as \"7\", similarity8 as \"8\", \r\nsimilarity9 as \"9\", similarity10 as \"10\", similarity11 as \"11\", similarity12 as \"12\", \r\nsimilarity13 as \"13\", similarity14 as \"14\", similarity15 as \"15\", similarity16 as \"16\", \r\nsimilarity17 as \"17\", similarity18 as \"18\", similarity19 as \"19\", similarity20 as \"20\", \r\nsimilarity21 as \"21\", similarity22 as \"22\", similarity23 as \"23\", similarity24 as \"24\", \r\nsimilarity25 as \"25\", similarity26 as \"26\", similarity27 as \"27\", similarity28 as \"28\", \r\nsimilarity29 as \"29\", similarity30 as \"30\", similarity31 as \"31\", similarity32 as \"32\", \r\nsimilarity33 as \"33\", similarity34 as \"34\", similarity35 as \"35\", similarity36 as \"36\", \r\nsimilarity37 as \"37\", similarity38 as \"38\", similarity39 as \"39\", similarity40 as \"40\", \r\nsimilarity41 as \"41\", similarity42 as \"42\", similarity43 as \"43\", similarity44 as \"44\", \r\nsimilarity45 as \"45\", similarity46 as \"46\", similarity47 as \"47\", similarity48 as \"48\", \r\nsimilarity49 as \"49\", similarity50 as \"50\", similarity51 as \"51\", similarity52 as \"52\", \r\nsimilarity53 as \"53\", similarity54 as \"54\", similarity55 as \"55\", similarity56 as \"56\", \r\nsimilarity57 as \"57\", similarity58 as \"58\", similarity59 as \"59\", similarity60 as \"60\"\r\nfrom similarities where batch_name = cast('$batchname' as text);\r\n\r\n\r\n\r\nselect batch_size as \"X-Position X [subpixel]\" from similarities where batch_name = cast('$batchname' as text) \r\n\r\n\r\n\r\n\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Deviation from Average by Position",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "series",
+        "show": true,
+        "values": [
+          "avg"
+        ]
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:94",
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:95",
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "46",
+          "value": "46"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "select batch_name from similarities",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Batch Name",
+        "multi": false,
+        "name": "batchname",
+        "options": [],
+        "query": "select batch_name from similarities",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "3",
+          "value": "3"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "SELECT generate_series(1, 60) AS ID;\n",
+        "hide": 0,
+        "includeAll": false,
+        "label": "rotation number",
+        "multi": false,
+        "name": "rotationNo",
+        "options": [],
+        "query": "SELECT generate_series(1, 60) AS ID;\n",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "375",
+          "value": "375"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "select batch_size from similarities where batch_name = cast('$batchname' as text)",
+        "hide": 2,
+        "includeAll": false,
+        "label": "NumProduct",
+        "multi": false,
+        "name": "number_of_products",
+        "options": [],
+        "query": "select batch_size from similarities where batch_name = cast('$batchname' as text)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "defect per spindle temp",
+  "uid": "eY-7TIjVz",
+  "version": 9,
+  "weekStart": ""
+}

@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  grafana:
+    image: grafana/grafana-enterprise:10.0.1
+    container_name: Inspection_Dashboard_Grafana
+    ports:
+      - 4001:3000
+    restart: unless-stopped
+    volumes:
+      - ./docker/grafana/images/:/usr/share/grafana/public/img/
+      - ./docker/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./docker/grafana/dashboard/:/etc/grafana/provisioning/dashboards/
+      - ./docker/grafana/datasource/:/etc/grafana/provisioning/datasources/
+      - ./docker/grafana/plugins/nline-plotlyjs-panel/:/var/lib/grafana/plugins/
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:
