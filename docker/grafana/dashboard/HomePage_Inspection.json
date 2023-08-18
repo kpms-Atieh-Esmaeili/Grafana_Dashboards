@@ -1,0 +1,256 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 23,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 26,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "\n<!DOCTYPE html>\n<html>\n<head>\n<style>\n.theme-dark{\n  background-color:white;\n}\n.theme-light{\n  background-color:white;\n}\n.css-g43m4k{\nbackground-color: #A9A9A9;\nborder-radius: 50%;\nwidth: 15px;\nheight:15px;\nmargin-bottom:2px;\nmargin-right:2px;\n}\n\n</style>\n</head>\n<body>\n\n<div style=\"background-color:#F5F3F1;\">\n<a href=\"d/RgOQbI1Vz/homepage_inspection?orgId=1\">\n<img style=\"width:120px;background-color:#F5F3F1;padding-right:30px;\" src=\"public/img/logo_black.png\"></img></a>\n\n<h1 style=\"font-size: 20px;position:absolute;left: 40%;top: 50%;transform: translate(-50%, -50%);font-family:Arial;font-weight:bold;color:black;display:inline-block;padding-top:10px;padding-left:20%\"for=\"html\">Inspection Dashboard </h1>\n</div>\n\n</body>\n</html> \n\n\n\n\n\n",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 0,
+        "y": 2
+      },
+      "id": 24,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <style>\r\n    .slider {\r\n      position: relative;\r\n      overflow: hidden;\r\n    }\r\n    \r\n    .slider img {\r\n      \r\n      object-fit: cover;\r\n    }\r\n    img {\r\n\r\n  width: 250px;\r\n\r\n}\r\n  </style>\r\n</head>\r\n<body>\r\n  <div class=\"slider\">\r\n    <img src=\"public/img/Entry page_camera.png\" alt=\"Image 1\">\r\n  </div>\r\n</body>\r\n</html>\r\n",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 8,
+        "y": 2
+      },
+      "id": 8,
+      "links": [],
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.luminancebtn {\n  background: #f5f3f1;\n  border: 3px solid #c4c2c0;\n  font: inherit;\n  line-height: 0.5;\n  margin: 0;\n  padding: 1em 2em;\n  border-radius: 2em;\n  color: black;\n  width: 225px;\n  font-family: Arial;\n  font-size: 14px;\n}\n\n.luminancebtn:hover {\n  background: #C4C0BB;\n  color: white;\n}\n</style>\n</head>\n<body>\n<div>\n  <a href=\"d/sidY8t0Vz/luminance-particle-c51?var-Batch_name=$Batch_home_page&var-Inspection_name=$Inspection_name_home_page&from=$__from&to=$__to\">\n    <button class=\"luminancebtn\"><b>Luminance</b></button>\n  </a>\n</div>\n</body>\n</html>\n",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 15,
+        "y": 2
+      },
+      "id": 22,
+      "links": [],
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.particlebutton {\n  background: #f5f3f1;\n  border: 3px solid #c4c2c0;\n  font: inherit;\n  line-height: 0.5;\n  margin: 0;\n  padding: 1em 2em;\n  border-radius:2em;\n  color:black;\n  width:225px;\n  font-family:Arial;\n  font-size:14px;\n  \n}\n  .particlebutton:hover{background:#C4C0BB;\n    color:white}\n</style>\n</head>\n<body>\n\n<div>\n  <a href=\"d/fkQm0S1Vz/position-particle?var-Batch_name=${Batch_home_page:rawurlencode()}&var-Inspection_name=${Inspection_name_home_page:rawurlencode()}&from=$__from&to=$__to\">\n  <button class=\"particlebutton\"><b>Particle Position & Area</b></button>\n  </a>\n</div>\n\n</body>\n</html> ",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 8,
+        "y": 4
+      },
+      "id": 20,
+      "links": [],
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.toolsetbtn {\n  background:#f5f3f1;\n  border: 3px solid #c4c2c0;\n  font: inherit;\n  line-height: 0.5;\n  margin: 0;\n  padding: 1em 2em;\n  border-radius:2em;\n  color:black;\n  width:225px;\n  font-family:Arial;\n  font-size:14px;\n  \n  \n}\n  .toolsetbtn:hover{background:#C4C0BB;\n    color:white}\n</style>\n</head>\n<body>\n\n<div>\n  <a href=\"d/gKdSpSJ4k/toolset-time-copy?var-Batch_name=${Batch_home_page:rawurlencode()}&var-Inspection_name=${Inspection_name_home_page:rawurlencode()}&from=$__from&to=$__to\"\">\n  <button class=\"toolsetbtn\"><b>Toolset Time</b></button>\n  </a>\n</div>\n\n</body>\n</html> ",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 6,
+        "x": 15,
+        "y": 4
+      },
+      "id": 18,
+      "links": [],
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.positionbtn {\n  background: #f5f3f1;\n  border: 3px solid #c4c2c0;\n  font: inherit;\n  line-height: 0.5;\n  margin: 0;\n  padding: 1em 2em;\n  border-radius:2em;\n  color:black;\n  width:225px;\n  font-family:Arial;\n  font-size:14px;\n  \n  \n}\n  .positionbtn:hover{background:#C4C0BB;\n    color:white}\n</style>\n</head>\n<body>\n\n<div>\n  <a href=\"d/cXDJup04z/product-position?var-Batch_name=${Batch_home_page:rawurlencode()}&var-Inspection_name=${Inspection_name_home_page:rawurlencode()}&from=$__from&to=$__to\"\">\n  <button class=\"positionbtn\"><b>Product Position</b></button>\n  </a>\n</div>\n\n</body>\n</html> ",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "03 random production"
+          ],
+          "value": [
+            "03 random production"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "select distinct batchname from batch where TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Batchname",
+        "multi": true,
+        "name": "Batch_home_page",
+        "options": [],
+        "query": "select distinct batchname from batch where TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "C101 Particle 4",
+          "value": "C101 Particle 4"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "select distinct inspectionname from batch where TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo() AND batch.batchname in ($Batch_home_page);",
+        "hide": 0,
+        "includeAll": false,
+        "label": "InspectionName",
+        "multi": false,
+        "name": "Inspection_name_home_page",
+        "options": [],
+        "query": "select distinct inspectionname from batch where TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo() AND batch.batchname in ($Batch_home_page);",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-06-02T00:41:22.000Z",
+    "to": "2023-06-10T17:41:41.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "HomePage_Inspection",
+  "uid": "RgOQbI1Vz",
+  "version": 4,
+  "weekStart": ""
+}
