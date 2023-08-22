@@ -12,6 +12,7 @@ services:
       - ./docker/grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./docker/grafana/dashboard/:/etc/grafana/provisioning/dashboards/
       - ./docker/grafana/datasource/:/etc/grafana/provisioning/datasources/
+      - ./docker/grafana/datasource/:/etc/grafana/provisioning/alerting/
       - ./docker/grafana/plugins/nline-plotlyjs-panel/:/var/lib/grafana/plugins/
       - grafana-data:/var/lib/grafana
 
