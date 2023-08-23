@@ -4,7 +4,6 @@ datasources:
   - name: Postgres_Visualization_Data
     type: postgres
     isDefault: false
-    #url: 172.22.80.1:5432
     url: postgres:5432
     database: inspections
     user: postgres

@@ -1,0 +1,423 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 17,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P6E58CF9E1F3FE3DC"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "\n<!DOCTYPE html>\n<html>\n<head>\n<style>\n.theme-dark{\n  background-color:white;\n}\n.theme-light{\n  background-color:white;\n}\n.css-g43m4k{\nbackground-color: #A9A9A9;\nborder-radius: 50%;\nwidth: 15px;\nheight:15px;\nmargin-bottom:2px;\nmargin-right:2px;\n}\n\n</style>\n</head>\n<body>\n\n<div style=\"background-color:#F5F3F1;\">\n<a href=\"http://168.119.114.146/grafana/dashboards\">\n<img style=\"width:120px;background-color:#F5F3F1;padding-right:30px;\" src=\"public/img/logo_black.png\"></img></a>\n\n<h1 style=\"font-size: 20px;font-family:Arial;font-weight:bold;color:black;display:inline-block;padding-top:10px;padding-left:50px;position:center; text-align:center;\"for=\"html\">Cartridge Fill Level </h1>\n</div>\n\n</body>\n</html> \n\n\n\n\n\n",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P6E58CF9E1F3FE3DC"
+          },
+          "refId": "A"
+        }
+      ],
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P6E58CF9E1F3FE3DC"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 19,
+        "x": 0,
+        "y": 2
+      },
+      "id": 1,
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "exponent": 0.5,
+          "fill": "dark-orange",
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "Oranges",
+          "steps": 64
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-9
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "tooltip": {
+          "show": true,
+          "yHistogram": false
+        },
+        "yAxis": {
+          "axisLabel": "position(x,y)",
+          "axisPlacement": "left",
+          "reverse": false
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P6E58CF9E1F3FE3DC"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  distinct trigger.triggerindex AS \"trigger\",\n  trigger.data1_1 AS \"1,1\",\n  trigger.data2_1 AS \"2,1\",\n  trigger.data3_1 AS \"3,1\",\n  trigger.data4_1 AS \"4,1\",\n  trigger.data5_1 AS \"5,1\",\n  trigger.data6_1 AS \"6,1\",\n  trigger.data7_1 AS \"7,1\",\n  trigger.data8_1 AS \"8,1\",\n  trigger.data9_1 AS \"9,1\"\n\nFROM\n  trigger\n  LEFT JOIN batch ON trigger.batch_inspectionid = batch.batch_inspectionid\nWHERE\n    --batch.batchname IN ('$batchname')  \n    --AND batch.svimname IN ('$svim')    \n   -- AND batch.inspectionname IN ('$inspection_name') \n     TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n    AND TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo()\n    limit 1000;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "type": "heatmap"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P6E58CF9E1F3FE3DC"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 19,
+        "y": 2
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P6E58CF9E1F3FE3DC"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    (avg_data.\"1,1\" + avg_data.\"2,1\" + avg_data.\"3,1\" + avg_data.\"4,1\" + avg_data.\"5,1\" + avg_data.\"6,1\" + avg_data.\"7,1\" + avg_data.\"8,1\" + avg_data.\"9,1\") / 9 AS \"avg\",\n    GREATEST(avg_data.max_1_1, avg_data.max_2_1, avg_data.max_3_1, avg_data.max_4_1, avg_data.max_5_1, avg_data.max_6_1, avg_data.max_7_1, avg_data.max_8_1, avg_data.max_9_1) AS \"max\",\n    LEAST(avg_data.min_1_1, avg_data.min_2_1, avg_data.min_3_1, avg_data.min_4_1, avg_data.min_5_1, avg_data.min_6_1, avg_data.min_7_1, avg_data.min_8_1, avg_data.min_9_1) AS \"min\",\n    SQRT((avg_data.stddev_1_1^2 + avg_data.stddev_2_1^2 + avg_data.stddev_3_1^2 + avg_data.stddev_4_1^2 + avg_data.stddev_5_1^2 + avg_data.stddev_6_1^2 + avg_data.stddev_7_1^2 + avg_data.stddev_8_1^2 + avg_data.stddev_9_1^2) / 9) AS \"stddev\"\nFROM \n    (SELECT \n        AVG(data1_1) AS \"1,1\", MAX(data1_1) AS max_1_1, MIN(data1_1) AS min_1_1, STDDEV(data1_1) AS stddev_1_1,\n        AVG(data2_1) AS \"2,1\", MAX(data2_1) AS max_2_1, MIN(data2_1) AS min_2_1, STDDEV(data2_1) AS stddev_2_1,\n        AVG(data3_1) AS \"3,1\", MAX(data3_1) AS max_3_1, MIN(data3_1) AS min_3_1, STDDEV(data3_1) AS stddev_3_1,\n        AVG(data4_1) AS \"4,1\", MAX(data4_1) AS max_4_1, MIN(data4_1) AS min_4_1, STDDEV(data4_1) AS stddev_4_1,\n        AVG(data5_1) AS \"5,1\", MAX(data5_1) AS max_5_1, MIN(data5_1) AS min_5_1, STDDEV(data5_1) AS stddev_5_1,\n        AVG(data6_1) AS \"6,1\", MAX(data6_1) AS max_6_1, MIN(data6_1) AS min_6_1, STDDEV(data6_1) AS stddev_6_1,\n        AVG(data7_1) AS \"7,1\", MAX(data7_1) AS max_7_1, MIN(data7_1) AS min_7_1, STDDEV(data7_1) AS stddev_7_1,\n        AVG(data8_1) AS \"8,1\", MAX(data8_1) AS max_8_1, MIN(data8_1) AS min_8_1, STDDEV(data8_1) AS stddev_8_1,\n        AVG(data9_1) AS \"9,1\", MAX(data9_1) AS max_9_1, MIN(data9_1) AS min_9_1, STDDEV(data9_1) AS stddev_9_1\n    FROM trigger) AS avg_data;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Total Amounts",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P6E58CF9E1F3FE3DC"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 4,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P6E58CF9E1F3FE3DC"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  trigger.triggerindex AS \"trigger\",\n  trigger.data1_1 AS \"1,1\",\n  trigger.data2_1 AS \"2,1\",\n  trigger.data3_1 AS \"3,1\",\n  trigger.data4_1 AS \"4,1\",\n  trigger.data5_1 AS \"5,1\",\n  trigger.data6_1 AS \"6,1\",\n  trigger.data7_1 AS \"7,1\",\n  trigger.data8_1 AS \"8,1\",\n  trigger.data9_1 AS \"9,1\"\n\nFROM\n  trigger\n  LEFT JOIN batch ON trigger.batch_inspectionid = batch.batch_inspectionid\nWHERE\n    --batch.batchname IN ('$batchname')  \n    --AND batch.svimname IN ('$svim')    \n   -- AND batch.inspectionname IN ('$inspection_name') \n     TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n    AND TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo()\n    limit 1000;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "name": "AVG",
+                "parameters": [
+                  {
+                    "name": "data1",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "\"timestamp\"",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "batch"
+        }
+      ],
+      "title": "Panel Title",
+      "type": "bargauge"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "20230802_HM_Test DC",
+          "value": "20230802_HM_Test DC"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "select distinct batchname from batch\n",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Batch Name",
+        "multi": false,
+        "name": "batchname",
+        "options": [],
+        "query": "select distinct batchname from batch\n",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Particle CB91",
+          "value": "Particle CB91"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "SELECT DISTINCT inspectionname\nFROM batch",
+        "description": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Inspection Name",
+        "multi": false,
+        "name": "Inspection_name",
+        "options": [],
+        "query": "SELECT DISTINCT inspectionname\nFROM batch",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "2",
+          "value": "2"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "SELECT generate_series(1, 9) AS ID;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "X-Position",
+        "multi": false,
+        "name": "positiondata",
+        "options": [],
+        "query": "SELECT generate_series(1, 9) AS ID;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-08-01T22:00:00.500Z",
+    "to": "2023-08-03T21:59:59.500Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Cartridge Fill Level",
+  "uid": "d22140eb-d341-4757-acfc-30a9a6e2a357",
+  "version": 14,
+  "weekStart": ""
+}
