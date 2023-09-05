@@ -1,0 +1,498 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 25,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.theme-dark{\n  background-color:white;\n}\n.theme-light{\n  background-color:white;\n}\n\n.css-g43m4k{\nbackground-color: #A9A9A9;\nborder-radius: 50%;\nwidth: 15px;\nheight:15px;\nmargin-bottom:2px;\nmargin-right:2px;\n}\n\n</style>\n</head>\n<body>\n\n<div style=\"background-color:#F5F3F1;\">\n<a href=\"http://168.119.114.146:3000/d/RgOQbI1Vz/homepage_inspection?orgId=1\">\n<img style=\"width:120px;background-color:#F5F3F1;padding-right:30px;\" src=\"public/img/logo_black.png\"></img></a>\n\n<h1 style=\"font-size: 20px;font-family:Arial;font-weight:bold;color:black;display:inline-block;vertical-align:middle;padding-top:10px;padding-left:20%\"for=\"html\">Inspection Dashboard - Particle Position & Area - ${Inspection_name}</h1>\n</div>\n\n</body>\n</html> ",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P6E58CF9E1F3FE3DC"
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 14,
+        "x": 0,
+        "y": 2
+      },
+      "id": 2,
+      "options": {
+        "config": {
+          "displayModeBar": false
+        },
+        "data": [
+          {
+            "marker": {
+              "color": "blue",
+              "size": 3
+            },
+            "mode": "markers",
+            "type": "scatter"
+          }
+        ],
+        "layout": {
+          "margin": {
+            "b": 40,
+            "l": 20,
+            "r": 20,
+            "t": 5
+          },
+          "paper_bgcolor": "rgba(0,0,0,0)",
+          "plot_bgcolor": "rgba(0,0,0,0)",
+          "xaxis": {
+            "automargin": true,
+            "autorange": true,
+            "range": [
+              0,
+              1
+            ],
+            "rangemode": "tozero",
+            "title": {
+              "font": {
+                "family": "Arial"
+              },
+              "text": "Particle Y [px]"
+            },
+            "type": "linear"
+          },
+          "yaxis": {
+            "automargin": true,
+            "autorange": true,
+            "range": [
+              0,
+              1
+            ],
+            "rangemode": "tozero",
+            "title": {
+              "font": {
+                "family": "Arial"
+              },
+              "text": "Particle X [px]"
+            },
+            "type": "linear"
+          }
+        },
+        "onclick": "// console.log(data);\n// window.updateVariables({query:{'var-project':'test'}, partial: true})",
+        "script": "let x = data.series[0].fields[0].values;\nlet y = data.series[0].fields[1].values;\n\n\nlet trace1 = {\n  x: x,\n  y: y,\n  name:\"InspectionName\"\n};\n\n\nreturn { data: [trace1] };",
+        "yaml_mode": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P6E58CF9E1F3FE3DC"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select trigger.data12_1 as \"Y-Postition[subpixel]\",trigger.data11_1 as \"X-Postition[subpixel]\" from trigger LEFT JOIN batch\nON trigger.batch_inspectionid = batch.batch_inspectionid where batch.batchname in ($Batch_name) and trigger.triggerindex in ($trigger_index) and trigger.result1 in ($inspection_result) and batch.inspectionname in ('$Inspection_name') AND TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "$Inspection_name Position X,Y - Values",
+      "type": "nline-plotlyjs-panel"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 10,
+        "x": 14,
+        "y": 2
+      },
+      "id": 10,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": " <!DOCTYPE html>\n<html>\n<head>\n<style>\nimg {\n  width:auto;\n  height:auto;\n}\n</style>\n</head>\n<body>\n\n<img src=\"public/img/Particle position_sketch.png\" alt=\"HTML5 Icon\" width=\"128\" height=\"250\">\n\n</body>\n</html> ",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P44368ADAD746BC27"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 12
+      },
+      "id": 8,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.bcktoovbtn {\n  background: #f5f3f1;\n  border: 3px solid #c4c2c0;\n  font: inherit;\n  line-height: 1;\n  margin: 0;\n  padding: 1em 3em;\n  border-radius:2em;\n  color:black;\n  width:250px;\n  font-family:Arial;\n  \n  \n}\n  .bcktoovbtn:hover{background:#C4C0BB;\n    color:white}\n</style>\n</head>\n<body>\n\n<div>\n  <a href=\"d/RgOQbI1Vz/homepage_inspection?var-Batch_home_page=${Batch_name:rawurlencode()}&var-Inspection_name_home_page=${Inspection_name:rawurlencode()}&from=$__from&to=$__to\">\n  <button class=\"bcktoovbtn\"><b>Back to overview</b></button>\n</div>\n\n</body>\n</html> ",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P6E58CF9E1F3FE3DC"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#0068ff",
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "max": 800,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-blue",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pixel"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 14,
+        "x": 0,
+        "y": 13
+      },
+      "id": 6,
+      "options": {
+        "bucketOffset": 0,
+        "combine": false,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P6E58CF9E1F3FE3DC"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select trigger.data10_1 as \"Particle Area\" from trigger LEFT JOIN batch\nON trigger.batch_inspectionid = batch.batch_inspectionid where batch.batchname in ($Batch_name) and trigger.triggerindex in ($trigger_index) and trigger.result1 in ($inspection_result) and batch.inspectionname in ('$Inspection_name') AND TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(trigger.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();\n\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "$Inspection_name Particle Area - Frequency ",
+      "type": "histogram"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "1489",
+          "value": "1489"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "select distinct batch_inspectionid from trigger;",
+        "hide": 2,
+        "includeAll": false,
+        "label": " ",
+        "multi": false,
+        "name": "Batches",
+        "options": [],
+        "query": "select distinct batch_inspectionid from trigger;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "select distinct batchname from batch where TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Batchname",
+        "multi": true,
+        "name": "Batch_name",
+        "options": [],
+        "query": "select distinct batchname from batch where TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "SELECT DISTINCT inspectionname\nFROM batch\nWHERE TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+        "hide": 0,
+        "includeAll": false,
+        "label": "InspectionName",
+        "multi": false,
+        "name": "Inspection_name",
+        "options": [],
+        "query": "SELECT DISTINCT inspectionname\nFROM batch\nWHERE TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') >= $__timeFrom()\n  AND TO_TIMESTAMP(batch.timestamp, 'YYYY-MM-DD HH24:MI:SS.FF3') <= $__timeTo();",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "inspection_result",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "Defect",
+            "value": "0"
+          },
+          {
+            "selected": false,
+            "text": "Good Product",
+            "value": "1"
+          }
+        ],
+        "query": "Defect : 0 , Good Product : 1",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P6E58CF9E1F3FE3DC"
+        },
+        "definition": "select distinct triggerindex from trigger;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "image_counter",
+        "multi": true,
+        "name": "trigger_index",
+        "options": [],
+        "query": "select distinct triggerindex from trigger;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-06-02T00:41:22.000Z",
+    "to": "2023-06-10T17:41:41.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "limit Particle Position & Area",
+  "uid": "limitPP",
+  "version": 2,
+  "weekStart": ""
+}
