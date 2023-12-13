@@ -1,0 +1,402 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 25,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display:flex;align-items: center;\">\n  <img src=/public/img/koerber/logo_black.png width=\"80\">\n  <span style=\"font-weight:bold;font-size:22px;padding-left:10px\">Defect per Spindle</span>\n</div>",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Defect relative",
+            "axisPlacement": "auto",
+            "axisSoftMax": 110,
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 8,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "displayName": "Spindle ${__field.name}",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.axisGridShow",
+                "value": false
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P92A3DAD543463F5D"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "WITH aggregated_data AS (\n\tSELECT \n\t\tposition1::text\n\t\t, (\"AIR COMPARTMENT A C81\"\n\t\t+\"AIR COMPARTMENT A C82\"\n\t\t+\"AIR COMPARTMENT B C81\"\n\t\t+\"AIR COMPARTMENT B C82\"\n\t\t+\"AQL\"\n\t\t+\"BACK PLUNGER INVERTED C31\"\n\t\t+\"BACK PLUNGER POSITION C81\"\n\t\t+\"BACK PLUNGER ZONE 1 C31\"\n\t\t+\"BACK PLUNGER ZONE 1 C32\"\n\t\t+\"BACK PLUNGER ZONE 2 C31\"\n\t\t+\"BACK PLUNGER ZONE 2 C32\"\n\t\t+\"BACK SURFACE OF PLUNGER C41\"\n\t\t+\"BENT TIP CAP C21\"\n\t\t+\"FILL LEVEL COMPARTMENT A C81\"\n\t\t+\"FILL LEVEL COMPARTMENT A C82\"\n\t\t+\"FILL LEVEL COMPARTMENT B C81\"\n\t\t+\"FILL LEVEL COMPARTMENT B C82\"\n\t\t+\"FINGERGRIP C11\"\n\t\t+\"FRONT PLUNGER INVERTED C31\"\n\t\t+\"FRONT PLUNGER POSITION C81\"\n\t\t+\"FRONT PLUNGER ZONE 1 C31\"\n\t\t+\"FRONT PLUNGER ZONE 1 C32\"\n\t\t+\"FRONT PLUNGER ZONE 2 C31\"\n\t\t+\"FRONT PLUNGER ZONE 2 C32\"\n\t\t+\"FRONT POSITION OF PLUNGER C82\"\n\t\t+\"FRONT SURFACE OF PLUNGER C41\"\n\t\t+\"HV AI\"\n\t\t+\"HV AII\"\n\t\t+\"HV SETUP RUN DATASET 1\"\n\t\t+\"HV SETUP RUN DATASET 2\"\n\t\t+\"HV SETUP RUN DATASET 3\"\n\t\t+\"HV SETUP RUN DATASET 4\"\n\t\t+\"INSPECTION RESULT\"\n\t\t+\"LIGHT MONITORING C101\"\n\t\t+\"LIGHT MONITORING C11\"\n\t\t+\"LIGHT MONITORING C111\"\n\t\t+\"LIGHT MONITORING C121\"\n\t\t+\"LIGHT MONITORING C21\"\n\t\t+\"LIGHT MONITORING C31\"\n\t\t+\"LIGHT MONITORING C41\"\n\t\t+\"LIGHT MONITORING C51\"\n\t\t+\"LIGHT MONITORING C71\"\n\t\t+\"LIGHT MONITORING C81\"\n\t\t+\"LIGHT MONITORING C91\"\n\t\t+\"MAX. INSPECTION TIME\"\n\t\t+\"MISSING FRONT PLUNGER C81\"\n\t\t+\"MISSING PLUNGER C11\"\n\t\t+\"PART PRESENT LOOP MODE\"\n\t\t+\"PARTICLE COMPARTMENT A C101\"\n\t\t+\"PARTICLE COMPARTMENT A C71\"\n\t\t+\"PARTICLE COMPARTMENT A C91\"\n\t\t+\"PARTICLE COMPARTMENT B C101\"\n\t\t+\"PARTICLE COMPARTMENT B C71\"\n\t\t+\"PARTICLE COMPARTMENT B C91\"\n\t\t+\"PLUNGER C11\"\n\t\t+\"PRODUCT MARKER VISION\"\n\t\t+\"ROTATION FAULT INSPECTION\"\n\t\t+\"SIDEWALL AGA C111\"\n\t\t+\"SIDEWALL AGA C121\"\n\t\t+\"SIDEWALL LIQUID AREA C81\"\n\t\t+\"SIDEWALL LIQUID AREA C82\"\n\t\t+\"SIDEWALL NON LIQUID AREA C82\"\n\t\t+\"SIDEWALL NON-LIQUID AREA C81\"\n\t\t+\"SURFACE OF PLUNGER C51\"\n\t\t+\"TIP CAP C21\"\n\t\t+\"TIP CAP POSITION C81\") AS bad_inspection\n\t\t, \"INSPECTION RESULT\" AS good_inspection\n\t\t, TO_TIMESTAMP(TRIM(LEADING '(' FROM SPLIT_PART(timestamp, ',', 1)), 'YYYY-MM-DD HH24:MI:SS') as time\n\tFROM individual_products\n\tWHERE 1=1\n\t\tAND batch_name = CAST('${batch_name}' as text)\n\t\tAND position1 IN (${spindle_position})\n)\n\nSELECT\n\ttime as time\n\t, position1::text as metric\n\t, (100*(bad_inspection / (good_inspection + bad_inspection)))::INTEGER as value\nFROM aggregated_data\nORDER BY time ASC\n--WHERE 1=1 AND position1 IN (${spindle_position})",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "8ab89b98-0123-4456-b89a-b18bd3e03daf",
+                  "properties": {
+                    "value": [],
+                    "valueSrc": []
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "bba8a8ba-89ab-4cde-b012-318bd3063236",
+              "type": "group"
+            }
+          },
+          "table": "individual_products"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Defect relative"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Spindle #"
+          }
+        ]
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P92A3DAD543463F5D"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH aggregated_data AS (\n\tSELECT \n\t\tposition1::text\n\t\t, (\"AIR COMPARTMENT A C81\"\n\t\t+\"AIR COMPARTMENT A C82\"\n\t\t+\"AIR COMPARTMENT B C81\"\n\t\t+\"AIR COMPARTMENT B C82\"\n\t\t+\"AQL\"\n\t\t+\"BACK PLUNGER INVERTED C31\"\n\t\t+\"BACK PLUNGER POSITION C81\"\n\t\t+\"BACK PLUNGER ZONE 1 C31\"\n\t\t+\"BACK PLUNGER ZONE 1 C32\"\n\t\t+\"BACK PLUNGER ZONE 2 C31\"\n\t\t+\"BACK PLUNGER ZONE 2 C32\"\n\t\t+\"BACK SURFACE OF PLUNGER C41\"\n\t\t+\"BENT TIP CAP C21\"\n\t\t+\"FILL LEVEL COMPARTMENT A C81\"\n\t\t+\"FILL LEVEL COMPARTMENT A C82\"\n\t\t+\"FILL LEVEL COMPARTMENT B C81\"\n\t\t+\"FILL LEVEL COMPARTMENT B C82\"\n\t\t+\"FINGERGRIP C11\"\n\t\t+\"FRONT PLUNGER INVERTED C31\"\n\t\t+\"FRONT PLUNGER POSITION C81\"\n\t\t+\"FRONT PLUNGER ZONE 1 C31\"\n\t\t+\"FRONT PLUNGER ZONE 1 C32\"\n\t\t+\"FRONT PLUNGER ZONE 2 C31\"\n\t\t+\"FRONT PLUNGER ZONE 2 C32\"\n\t\t+\"FRONT POSITION OF PLUNGER C82\"\n\t\t+\"FRONT SURFACE OF PLUNGER C41\"\n\t\t+\"HV AI\"\n\t\t+\"HV AII\"\n\t\t+\"HV SETUP RUN DATASET 1\"\n\t\t+\"HV SETUP RUN DATASET 2\"\n\t\t+\"HV SETUP RUN DATASET 3\"\n\t\t+\"HV SETUP RUN DATASET 4\"\n\t\t+\"INSPECTION RESULT\"\n\t\t+\"LIGHT MONITORING C101\"\n\t\t+\"LIGHT MONITORING C11\"\n\t\t+\"LIGHT MONITORING C111\"\n\t\t+\"LIGHT MONITORING C121\"\n\t\t+\"LIGHT MONITORING C21\"\n\t\t+\"LIGHT MONITORING C31\"\n\t\t+\"LIGHT MONITORING C41\"\n\t\t+\"LIGHT MONITORING C51\"\n\t\t+\"LIGHT MONITORING C71\"\n\t\t+\"LIGHT MONITORING C81\"\n\t\t+\"LIGHT MONITORING C91\"\n\t\t+\"MAX. INSPECTION TIME\"\n\t\t+\"MISSING FRONT PLUNGER C81\"\n\t\t+\"MISSING PLUNGER C11\"\n\t\t+\"PART PRESENT LOOP MODE\"\n\t\t+\"PARTICLE COMPARTMENT A C101\"\n\t\t+\"PARTICLE COMPARTMENT A C71\"\n\t\t+\"PARTICLE COMPARTMENT A C91\"\n\t\t+\"PARTICLE COMPARTMENT B C101\"\n\t\t+\"PARTICLE COMPARTMENT B C71\"\n\t\t+\"PARTICLE COMPARTMENT B C91\"\n\t\t+\"PLUNGER C11\"\n\t\t+\"PRODUCT MARKER VISION\"\n\t\t+\"ROTATION FAULT INSPECTION\"\n\t\t+\"SIDEWALL AGA C111\"\n\t\t+\"SIDEWALL AGA C121\"\n\t\t+\"SIDEWALL LIQUID AREA C81\"\n\t\t+\"SIDEWALL LIQUID AREA C82\"\n\t\t+\"SIDEWALL NON LIQUID AREA C82\"\n\t\t+\"SIDEWALL NON-LIQUID AREA C81\"\n\t\t+\"SURFACE OF PLUNGER C51\"\n\t\t+\"TIP CAP C21\"\n\t\t+\"TIP CAP POSITION C81\") AS bad_inspection\n\t\t, \"INSPECTION RESULT\" AS good_inspection\n\t\t, TO_TIMESTAMP(TRIM(LEADING '(' FROM SPLIT_PART(timestamp, ',', 1)), 'YYYY-MM-DD HH24:MI:SS') as time\n\tFROM individual_products\n\tWHERE 1=1\n\t\tAND batch_name = CAST('${batch_name}' as text)\n)\n\nSELECT\n\tposition1::text AS \"Spindle #\"\n  , SUM(bad_inspection)::INTEGER AS \"Defect absolute\"\n\t, (100*(SUM(bad_inspection) / SUM(good_inspection + bad_inspection)))::INTEGER as \"Defect relative\"\n\t, SUM(good_inspection)::INTEGER as \"Inspected good\"\nFROM aggregated_data\nGROUP BY position1\n--WHERE 1=1 AND position1 IN (${spindle_position})",
+          "refId": "Table",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Defects per Spindle Position",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 20
+      },
+      "id": 5,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .pdfbtn {\n      background: #f5f3f1;\n      border: 3px solid #c4c2c0;\n      font: inherit;\n      line-height: 0.5;\n      margin: 0;\n      text-align:center;\n      border-radius: 2em;\n      color: black;\n      width: 100%;\n      max-width: 225px;\n      font-family: Arial;\n      font-size: 14px;\n    }\n\n    .pdfbtn:hover {\n      background: #C4C0BB;\n      color: white;\n    }\n\n    .pdfdropdown {\n      width: 100%;\n      max-width: 225px;\n      font-family: Arial;\n      font-size: 14px;\n      margin: 0;\n      text-align:center;\n      border: 3px solid #c4c2c0;\n      border-radius: 2em;\n      overflow: hidden;\n      background-color: #f5f3f1;\n    }\n\n    .pdfdropdown:hover {\n      background: #C4C0BB;\n      color: white;\n    }\n\n    @media print {\n      #navigation,\n      .pdfbtn,\n      .pdfdropdown,\n      .css-11s8juy {\n        display: none;\n      }\n\n      page(max-width: 1040px) and (orientation: landscape) {\n        height: 100%;\n        position: absolute;\n        width: 100%;\n      }\n    }\n\n    element-style {\n      position: relative !important;\n      top: 0px;\n      min-height: calc(100% - 0px);\n    }\n  </style>\n</head>\n\n<body>\n  <!-- Dropdown -->\n  <label>Export Pdf as:</label>\n  <select class=\"pdfdropdown\" onchange=\"handleDropdownChange(this)\">\n    <option value=\"all\">The whole page</option>\n    <option value=\"1\">Products per Batch</option>\n    <option value=\"3\">Defect per spindle position</option>\n    <!-- Add more options as needed -->\n  </select>\n  <!-- ... Your existing HTML and styles ... -->\n\n  <script>\n    function openLinkAndPrint(page) {\n      if (page === \"all\") {\n        // Print the whole page\n        window.print();\n      } else {\n        var linkToOpen = 'http://168.119.114.146/grafana/d/a7f68428-4ae7-4364-aec2-3c572e861c8b/new-defect-per-spindle-export-pdf?orgId=1&viewPanel=' + page;\n\n        // Open the link in a new tab or window\n        var newWindow = window.open(linkToOpen, '_blank');\n\n        if (newWindow) {\n          // If the window was successfully opened, listen for the load event\n          newWindow.addEventListener('load', function () {\n            // Wait for 1 second and then prompt the user to print\n            setTimeout(function () {\n              newWindow.print();\n              newWindow.close(); // Close the window after printing\n            }, 1000);\n          });\n        } else {\n          console.error('Failed to open the link in a new window');\n        }\n      }\n    }\n\n    function handleDropdownChange(select) {\n      var selectedValue = select.value;\n      openLinkAndPrint(selectedValue);\n    }\n  </script>\n</body>\n\n</html>\n",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "current_batch",
+          "value": "current_batch"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "SELECT batch_name FROM individual_products",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Batch Name",
+        "multi": false,
+        "name": "batch_name",
+        "options": [],
+        "query": "SELECT batch_name FROM individual_products",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "SELECT position1 FROM individual_products",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Spindle Position",
+        "multi": true,
+        "name": "spindle_position",
+        "options": [],
+        "query": "SELECT position1 FROM individual_products",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-02-17T11:34:00.000Z",
+    "to": "2023-02-17T11:47:00.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "New_defect_per_spindle_Export_Pdf",
+  "uid": "a7f68428-4ae7-4364-aec2-3c572e861c8b",
+  "version": 4,
+  "weekStart": ""
+}

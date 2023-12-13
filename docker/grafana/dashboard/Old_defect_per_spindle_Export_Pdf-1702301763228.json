@@ -1,0 +1,428 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 18,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 2.5,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n<style>\n.theme-dark{\n  background-color:white;\n}\n.theme-light{\n  background-color:white;\n}\n\n.css-g43m4k{\nbackground-color: #A9A9A9;\nborder-radius: 50%;\nwidth: 15px;\nheight:15px;\nmargin-bottom:2px;\nmargin-right:2px;\n}\n.lable_decor{\nfont-size: 20px;\nfont-family:Arial;\nfont-weight:bold;\ncolor:black;\ndisplay:inline-block;\nvertical-align:middle;\npadding-top:10px;\npadding-left:35%;\n}\n</style>\n</head>\n<body>\n\n<div style=\"background-color:#F5F3F1;\">\n<a href=\"http://168.119.114.146:3000/d/RgOQbI1Vz/homepage_inspection?orgId=1\">\n<img style=\"width:120px;background-color:#F5F3F1;padding-right:30px;\" src=\"public/img/logo_black.png\"></img></a>\n\n<h1 class=\"lable_decor\">Defect Per Spindle</h1>\n</div>\n\n</body>\n</html> ",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 2.5
+      },
+      "id": 16,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n<style>\ninput, select {\n    background-color: white;\n    color: rgb(36, 41, 46);\n    border: none;\n    box-shadow: none;\n    text-align: center;\n}\n.centered-element {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center;\n}\n</style>\n<body>\n<div class=\"centered-element\">\n  <lable style = \"font-weight: bold;\">Products per Batch: </lable><br>\n  <input type=\"text\" id=\"fname\" name=\"fname\" value =\"${number_of_products}\">\n</div>\n\n</body>\n</html>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "description": "By using \"Position Range\" and \"Position Number\", defectness of product will be shown via this panel.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 3,
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.2
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 20,
+        "x": 4,
+        "y": 2.5
+      },
+      "id": 13,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P92A3DAD543463F5D"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "DROP TABLE IF EXISTS TempTable;\r\n\r\nWITH individual_results_subselection AS (\r\n    SELECT \r\n      now() as Time\r\n      , *\r\n    FROM individual_results \r\n    WHERE 1=1\r\n        AND batch_name = cast('$batchname' as text) \r\n        AND cast(position1 as integer)=cast(regexp_replace(cast('$rotationNo' as text), ' \\w* \\d*', '') as integer)\r\n)\r\n\r\nSELECT * INTO TABLE TempTable\r\nFROM individual_results_subselection\r\n;\r\n\r\nALTER TABLE TempTable\r\nDROP COLUMN position1\r\n;\r\n\r\nSELECT * FROM TempTable",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Defect Averages for Chosen Position",
+      "type": "bargauge"
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "postgres",
+        "uid": "P92A3DAD543463F5D"
+      },
+      "description": "The distance of the product from the average is shown here.",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 5.5
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "10.0.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/.*/",
+          "color": "#5794F2",
+          "lines": false
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P92A3DAD543463F5D"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "DROP TABLE IF EXISTS TempTable;\r\n\r\nWITH individual_results_subselection AS (\r\n    SELECT \r\n      now() as Time\r\n      , *\r\n    FROM individual_results \r\n    WHERE 1=1\r\n        AND batch_name = cast('$batchname' as text) \r\n        AND cast(position1 as integer)=cast(regexp_replace(cast('$rotationNo' as text), ' \\w* \\d*', '') as integer)\r\n)\r\n\r\nSELECT * INTO TABLE TempTable\r\nFROM individual_results_subselection\r\n;\r\n\r\nALTER TABLE TempTable\r\nDROP COLUMN position1\r\n;\r\n\r\nSELECT * FROM TempTable",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Deviation from Average by Position",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "series",
+        "show": true,
+        "values": [
+          "avg"
+        ]
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:94",
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:95",
+          "format": "short",
+          "label": "",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 10.5
+      },
+      "id": 17,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .pdfbtn {\n      background: #f5f3f1;\n      border: 3px solid #c4c2c0;\n      font: inherit;\n      line-height: 0.5;\n      margin: 0;\n      border-radius: 2em;\n      color: black;\n      width: 100%;\n      max-width: 225px;\n      font-family: Arial;\n      font-size: 14px;\n    }\n\n    .pdfbtn:hover {\n      background: #C4C0BB;\n      color: white;\n    }\n\n    .pdfdropdown {\n      width: 100%;\n      max-width: 225px;\n      font-family: Arial;\n      font-size: 14px;\n      margin: 0;\n      border: 3px solid #c4c2c0;\n      border-radius: 2em;\n      overflow: hidden;\n      background-color: #f5f3f1;\n    }\n\n    .pdfdropdown:hover {\n      background: #C4C0BB;\n      color: white;\n    }\n\n    @media print {\n      #navigation,\n      .pdfbtn,\n      .pdfdropdown,\n      .css-11s8juy {\n        display: none;\n      }\n\n      page(max-width: 1040px) and (orientation: landscape) {\n        height: 100%;\n        position: absolute;\n        width: 100%;\n      }\n    }\n\n    element-style {\n      position: relative !important;\n      top: 0px;\n      min-height: calc(100% - 0px);\n    }\n  </style>\n</head>\n\n<body>\n  <!-- Dropdown -->\n  <label>Export Pdf as:</label>\n  <select class=\"pdfdropdown\" onchange=\"handleDropdownChange(this)\">\n    <option value=\"1\">The whole page</option>\n    <option value=\"16\">Products per Batch</option>\n    <option value=\"9\">Deviation from Average</option>\n    <option value=\"13\">Defect Averages</option>\n    <!-- Add more options as needed -->\n  </select>\n  <!-- ... Your existing HTML and styles ... -->\n\n  <script>\n    function openLinkAndPrint(page) {\n      if (page === \"1\") {\n        // Print the whole page\n        window.print();\n      } else {\n        var linkToOpen = 'http://localhost:4001/d/eY-7TIjVz/defect-per-spindle-temp?orgId=1&viewPanel=' + page;\n\n        // Open the link in a new tab or window\n        var newWindow = window.open(linkToOpen, '_blank');\n\n        if (newWindow) {\n          // If the window was successfully opened, listen for the load event\n          newWindow.addEventListener('load', function () {\n            // Wait for 1 second and then prompt the user to print\n            setTimeout(function () {\n              newWindow.print();\n              newWindow.close(); // Close the window after printing\n            }, 1000);\n          });\n        } else {\n          console.error('Failed to open the link in a new window');\n        }\n      }\n    }\n\n    function handleDropdownChange(select) {\n      var selectedValue = select.value;\n      openLinkAndPrint(selectedValue);\n    }\n  </script>\n</body>\n\n</html>\n",
+        "mode": "html"
+      },
+      "pluginVersion": "10.0.1",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "second batch",
+          "value": "second batch"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "SELECT batch_name FROM individual_products",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Batch Name",
+        "multi": false,
+        "name": "batchname",
+        "options": [],
+        "query": "SELECT batch_name FROM individual_products",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "3",
+          "value": "3"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "SELECT generate_series(1, 60) AS ID;\n",
+        "hide": 0,
+        "includeAll": false,
+        "label": "rotation number",
+        "multi": false,
+        "name": "rotationNo",
+        "options": [],
+        "query": "SELECT generate_series(1, 60) AS ID;\n",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "40",
+          "value": "40"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P92A3DAD543463F5D"
+        },
+        "definition": "select batch_size from similarities where batch_name = cast('$batchname' as text)",
+        "hide": 2,
+        "includeAll": false,
+        "label": "NumProduct",
+        "multi": false,
+        "name": "number_of_products",
+        "options": [],
+        "query": "select batch_size from similarities where batch_name = cast('$batchname' as text)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-07-31T22:00:00.000Z",
+    "to": "2023-08-31T21:59:59.000Z"
+  },
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Old_defect_per_spindle_Export_Pdf",
+  "uid": "eY-7TIjVz",
+  "version": 8,
+  "weekStart": ""
+}
